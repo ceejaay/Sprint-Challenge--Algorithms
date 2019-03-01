@@ -121,22 +121,30 @@ class SortingRobot:
     def sort(self):
         self.set_light_on()
         while self.light_is_on():
-            if self.can_move_right():
-                while self.can_move_right():
+            self.set_light_off()
+            while self.can_move_right():
+                self.swap_item()
+                self.move_right()
+                if self.compare_item() == 1:
+                    self.swap_item()
+                    self.move_left()
+                    self.swap_item()
+                    self.set_light_on()
+                    self.move_right()
+                elif self.compare_item() == -1:
+                    self.move_left()
                     self.swap_item()
                     self.move_right()
-                    if self.compare_item() == 1:
-                        self.swap_item()
-                        self.move_left()
-                        self.swap_item()
-                    print(f"p: {self._position}, i: {self._item}")
-            elif self.can_move_left():
-                while self.can_move_left():
+                elif self.compare_item() == 0:
                     self.move_left()
-            self.set_light_off()
+                    self.swap_item()
+                    self.move_right()
+                print(f"p: {self._position}, i: {self._item} l?: {self.can_move_left()} r?: {self.can_move_right()} lite: {self.light_is_on()}")
+            while self.can_move_left():
+                self.move_left()
 
         
-        print(f"l: {[5, 7, 9, 0, 8]}")
+        # print(f"l: {[9, 7, 5, 0, 8]}")
 
 
 if __name__ == "__main__":
@@ -150,5 +158,6 @@ if __name__ == "__main__":
 
     robot.sort()
     print(robot._list)
+    print(robot._time)
 
 
